@@ -3,7 +3,7 @@ import imagehash
 import numpy as np
 import matplotlib.pyplot as plt
 
-img = cv2.imread('./images/Octocat.png',cv2.IMREAD_COLOR)
+img = cv2.imread('./images/icons8-jenkins-500.png',cv2.IMREAD_COLOR)
 
 # # reading random pixel
 # px = img[66,66]
@@ -42,30 +42,40 @@ def hashImage(image, hashSize=8):
 	# convert the difference image to a hash
 	return sum([2 ** i for (i, v) in enumerate(diff.flatten()) if v])
 
-print(countColors(img))
 # convert to greyscale
 grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+# hash original image
+originalImageHash = hashImage(grey)
+# array of matches
+matchArray = []
+# image width and height
+width = img.shape[0]
+height = img.shape[1]
+# create a number of resized grayscale images
+# 1% step here
+for newImageSizeRatio in range(1,101):
+    # calculate new dimentions
+    dim = (int(height*newImageSizeRatio/100), int(width*newImageSizeRatio/100))
+    # print(newImageSizeRatio,dim)
+    # perform the actual resizing of the image
+    resized = cv2.resize(grey, dim, interpolation = cv2.INTER_AREA)
+    # try computing the imagehash of both images
+    newImageHash = hashImage(resized)
+    # append the hash comparison result
+    if originalImageHash == newImageHash:
+        result = 'hashes match for ratio of: '+str(newImageSizeRatio)+' %'
+        matchArray.append(result)
+    else:
+        result = 'hashes do not match for ratio of: '+str(newImageSizeRatio)+' %'
+        # matchArray.append(result)
 
-# resize grey image
-# get ratio to avoid distortion
-r = 300.0 / grey.shape[1]
-dim = (300, int(grey.shape[0] * r))
-# perform the actual resizing of the image
-resized = cv2.resize(grey, dim, interpolation = cv2.INTER_AREA)
-# try computing the imagehash of both images
-greyscaleHash1 = hashImage(grey)
-greyscaleHash2 = hashImage(resized)
+print(matchArray)
 
-# report if the hash matches
-if greyscaleHash1 == greyscaleHash2:
-    print('hashes match!!')
-else:
-    print('hashes do not match')
+# get number of colors in images
+print(countColors(img))
 
-print(greyscaleHash1)
-print(greyscaleHash2)
 # cv2.imshow('showImage',img)
-cv2.imshow('greyImage',grey)
-cv2.imshow('resizedImage',resized)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+# cv2.imshow('greyImage',grey)
+# cv2.imshow('resizedImage',resized)
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
