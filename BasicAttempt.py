@@ -3,7 +3,10 @@ import imagehash
 import numpy as np
 import matplotlib.pyplot as plt
 
-img = cv2.imread('./images/icons8-jenkins-500.png',cv2.IMREAD_COLOR)
+# filepath = './images/Octocat.png'
+filepath = './images/icons8-jenkins-500.png'
+# read the image
+img = cv2.imread(filepath,cv2.IMREAD_COLOR)
 
 # # reading random pixel
 # px = img[66,66]
@@ -53,7 +56,7 @@ width = img.shape[0]
 height = img.shape[1]
 # create a number of resized grayscale images
 # 1% step here
-for newImageSizeRatio in range(1,101):
+for newImageSizeRatio in reversed(range(1,101)):
     # calculate new dimentions
     dim = (int(height*newImageSizeRatio/100), int(width*newImageSizeRatio/100))
     # print(newImageSizeRatio,dim)
