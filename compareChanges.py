@@ -1,25 +1,9 @@
-import cv2
 import imagehash
-import numpy as np
 import matplotlib.pyplot as plt
-#from skimage.measure import structural_similarity as ssim
+from utils.utils import convert_to_greyscale
+from utils.utils import mean_squared_error
+from utils.utils import load_image_from
 from skimage.measure import compare_ssim as ssim
-
-def mean_squared_error(imageA, imageB):
-	# sum of the squared difference between the two images;
-	# NOTE: the two images must have the same dimension
-	err = np.sum((imageA.astype("float") - imageB.astype("float")) ** 2)
-	err /= float(imageA.shape[0] * imageA.shape[1])
-    # return 	error value
-
-	return err
-
-def convert_to_greyscale(colorImage):
-	# this must recieve the image not the tuple
-	greyscaleImage = cv2.cvtColor(colorImage, cv2.COLOR_BGR2GRAY)
-
-	return greyscaleImage
-
 
 def compare_two_images(imageA, imageB, title):
 	# compute the mean squared error and structural similarity
@@ -79,9 +63,9 @@ def compare_one_to_all(target,images):
 ################
 
 # load the images
-original = cv2.imread("images/Octocat.png")
-opacity = cv2.imread("images/Octocat_opacity.png")
-shopped = cv2.imread("images/Octocat_shoped.png")
+original = load_image_from("images/Octocat.png")
+opacity = load_image_from("images/Octocat_opacity.png")
+shopped = load_image_from("images/Octocat_shoped.png")
 # create tuples
 images = ("Original", original), ("Opacity", opacity), ("Photoshopped", shopped)
 # show all the images

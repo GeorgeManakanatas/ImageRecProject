@@ -2,27 +2,27 @@
 
 # OpenCV image compare
 
-Playing around with image comparison.
+Playing around with image comparison and OpenCV.
 This is an auto generated README file.
 
 ## File structure
 
 ```
 .
-├── =1.15
-├── =1.25
-├── BasicAttempt.py
-├── dnspython-1.15.0-py2.py3-none-any.whl
+├── compareChanges.py
+├── compareResize.py
 ├── images
 │   ├── icons8-jenkins-500.png
-│   └── Octocat.png
-├── pyasn1-0.4.4-py2.py3-none-any.whl
-├── pyasn1_modules-0.2.2-py2.py3-none-any.whl
-├── pyldap-3.0.0.tar.gz
-├── python-ldap-3.1.0.tar.gz
-└── README.md
-
-1 directory, 11 files
+│   ├── Octocat_opacity.png
+│   ├── Octocat.png
+│   ├── Octocat_shoped.png
+│   ├── OpenCV.png
+│   ├── spongebobdiferences.jpeg
+│   ├── spongebobLeft.png
+│   └── spongebobRight.png
+├── README.md
+├── requirements.txt
+└── spotTheDif.py
 ```
 ## Getting Started
 
@@ -103,3 +103,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments
 
 * **Billie Thompson** - *Initial work on the great readme template used as the basis for this.* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Adrian Rosebrock** - *For his informative and interesting tutorials* - [pyimagesearch](https://www.pyimagesearch.com/)
