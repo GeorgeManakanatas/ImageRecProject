@@ -1,7 +1,7 @@
 import imagehash
 import matplotlib.pyplot as plt
-from utils.utils import convert_to_greyscale
-from utils.utils import mean_squared_error
+from utils.manipulateImage import convert_to_greyscale
+from utils.processImage import mean_squared_error
 from utils.utils import load_image_from
 from skimage.measure import compare_ssim as ssim
 

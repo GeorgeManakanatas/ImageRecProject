@@ -11,18 +11,38 @@ This is an auto generated README file.
 .
 ├── compareChanges.py
 ├── compareResize.py
+├── imageInImage.py
 ├── images
+│   ├── chipset.png
 │   ├── icons8-jenkins-500.png
 │   ├── Octocat_opacity.png
 │   ├── Octocat.png
 │   ├── Octocat_shoped.png
 │   ├── OpenCV.png
-│   ├── spongebobdiferences.jpeg
-│   ├── spongebobLeft.png
-│   └── spongebobRight.png
+│   ├── RaspberryPiFlaw2.png
+│   ├── RaspberryPiFlaw.png
+│   ├── RaspberryPi.png
+│   ├── Shapes.png
+│   └── small_element.png
+├── processShapes.py
 ├── README.md
 ├── requirements.txt
-└── spotTheDif.py
+├── sound
+│   ├── __init__.py
+│   ├── notificationSounds.py
+│   ├── __pycache__
+│   ├── Script_finished.wav
+│   └── Script_started.wav
+├── spotTheDif.py
+└── utils
+    ├── detectShapes.py
+    ├── __init__.py
+    ├── manipulateImage.py
+    ├── processImage.py
+    ├── __pycache__
+    └── utils.py
+
+5 directories, 27 files
 ```
 ## Getting Started
 
