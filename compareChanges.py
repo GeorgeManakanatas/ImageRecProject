@@ -2,7 +2,6 @@ import imagehash
 import matplotlib.pyplot as plt
 from utils.manipulateImage import convert_to_greyscale
 from utils.processImage import mean_squared_error
-from utils.utils import load_image_from
 from skimage.measure import compare_ssim as ssim
 
 def compare_two_images(imageA, imageB, title):
@@ -63,9 +62,9 @@ def compare_one_to_all(target,images):
 ################
 
 # load the images
-original = load_image_from("images/Octocat.png")
-opacity = load_image_from("images/Octocat_opacity.png")
-shopped = load_image_from("images/Octocat_shoped.png")
+original = cv2.imread("images/Octocat.png")
+opacity = cv2.imread("images/Octocat_opacity.png")
+shopped = cv2.imread("images/Octocat_shoped.png")
 # create tuples
 images = ("Original", original), ("Opacity", opacity), ("Photoshopped", shopped)
 # show all the images

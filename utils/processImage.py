@@ -1,24 +1,27 @@
+'''
+functions that process an image without modifying it
+'''
 import cv2
 import numpy as np
 import random
-from utils.utils import display_two_images
-
-########################################################
-# functions that process an image without modifying it #
-########################################################
+from utils.display import display_two_images
 
 # calculate and return mean squared error of 2 provided images
 def mean_squared_error(imageA, imageB):
-	# sum of the squared difference between the two images;
-	# NOTE: the two images must have the same dimension
-	err = np.sum((imageA.astype("float") - imageB.astype("float")) ** 2)
-	err /= float(imageA.shape[0] * imageA.shape[1])
+    ''''''
+    # sum of the squared difference between the two images;
+    # NOTE: the two images must have the same dimension
+    err = np.sum((imageA.astype("float") - imageB.astype("float")) ** 2)
+    err /= float(imageA.shape[0] * imageA.shape[1])
     # return 	error value
 
-	return err
+    return err
 
-# count the number of colors in an image
+
 def count_image_colors (image):
+    '''
+    Count the number of distinct colors in an image
+    '''
     width = image.shape[0]
     height = image.shape[1]
     imageColorList = []
@@ -32,53 +35,106 @@ def count_image_colors (image):
             # check if value exists in list already
             check = pxvalue in imageColorList
             # append to list if chek is tno true
-            if check==False:
+            if not check:
                 imageColorList.append(pxvalue)
-    print('number of discreet colors: ',len(imageColorList))
 
-    return [len(imageColorList)]
+    print('number of discreet colors: ', len(imageColorList))
 
+    return 
+
+def count_image_colors2 (image):
+    '''
+    Count the number of distinct colors in an image
+    '''
+    width = image.shape[0]
+    height = image.shape[1]
+    imageColorList2 = []
+    # get list of colors in image
+    for h in range(0, height):
+        for w in range(0, width):
+            # get pixel colors
+            px = image[w,h]
+            # turn to string so we avoid list in list comp issues
+            pxvalue = str(px[0])+','+str(px[1])+','+str(px[2])
+            imageColorList2.append(pxvalue)
+    print('number of discreet colors2: ', len(set(imageColorList2)))
+    return 
+
+def count_image_colors3 (image):
+    '''
+    Count the number of distinct colors in an image
+    '''
+    width = image.shape[0]
+    height = image.shape[1]
+    imageColorList = []
+    # get list of colors in image
+    for h in range(0, height):
+        for w in range(0, width):
+            # append all values
+            imageColorList.append(tuple(image[w,h]))
+
+    print('number of discreet colors: ', len(np.unique(imageColorList, axis=0)))
+    return 
 # calculate image hash with image and hash size as inputs
 def image_hash(image, hash_size):
-	# resize the input image, adding a single column (w idth) so we
-	# can compute the horizontal gradient
-	resized = cv2.resize(image, (hash_size + 1, hash_size))
-	# compute the (relative) horizontal gradient between adjacent
-	# column pixels
-	diff = resized[:, 1:] > resized[:, :-1]
-	# convert the difference image to a hash
-	difference_image = sum([2 ** i for (i, v) in enumerate(diff.flatten()) if v])
+    '''
+    # resize the input image, adding a single column (w idth) so we
+    # can compute the horizontal gradient
+    '''
 
-	return difference_image
+    resized = cv2.resize(image, (hash_size + 1, hash_size))
+    # compute the (relative) horizontal gradient between adjacent
+    # column pixels
+    diff = resized[:, 1:] > resized[:, :-1]
+    # convert the difference image to a hash
+    difference_image = sum([2 ** i for (i, v) in enumerate(diff.flatten()) if v])
 
-# gradually rescale an image and compare hashes with image, hash size, % of
-# rescaling and minimum size as inputs
+    return difference_image
+
+
 def rescale_and_compare(image, hash_size, rescale_step, minimum_final_size):
-  # array of matches
-  match_array = []
-  # calculate original hash
-  original_image_hash = image_hash(image, hash_size)
-  # image width and height
-  width = image.shape[0]
-  height = image.shape[1]
-  # create a number of resized grayscale images
-  for new_image_size_ratio in reversed(range(minimum_final_size,100+rescale_step,rescale_step)):
-    # calculate new dimentions
-    dimensions = (int(height*new_image_size_ratio/100), int(width*new_image_size_ratio/100))
-    # perform the actual resizing of the image
-    resized = resize_image_to(image, dimensions)
-    # try computing the imagehash of both images
-    new_image_hash = image_hash(resized, hash_size)
-    # append the hash comparison result to array
-    if original_image_hash == new_image_hash:
-      result = 'hashes match for ratio of: '+str(new_image_size_ratio)+' %'
-      match_array.append(result)
-    else:
-      result = 'hashes do not match for ratio of: '+str(new_image_size_ratio)+' %'
-      # append to result array
-      #match_array.append(result)
+    '''
+    Gradually rescale an image and compare hashes
 
-  return(match_array)
+    Arguments
+        image : the original image
+        hash_size(int) : the hash size we want to use
+        rescale_step(int) : the % that we want to shrink the image every time
+        minimum_final_size(int) : the % tha we want to stop at
+
+    Returns
+        A list of the matches found
+    '''
+    # list of matches
+    match_list = []
+    # calculate original hash
+    original_image_hash = image_hash(image, hash_size)
+    # image width and height
+    width = image.shape[0]
+    height = image.shape[1]
+    # create a number of resized grayscale images
+    for new_image_size_ratio in reversed(range(minimum_final_size,
+                                               100+rescale_step,
+                                               rescale_step)):
+        # calculate new dimentions
+        dimensions = (int(height*new_image_size_ratio/100),
+                      int(width*new_image_size_ratio/100))
+        # perform the actual resizing of the image
+        resized = resize_image_to(image, dimensions)
+        # try computing the imagehash of both images
+        new_image_hash = image_hash(resized, hash_size)
+        # append the hash comparison result to array
+        if original_image_hash == new_image_hash:
+            result = 'hashes match for ratio of: '+str(
+                    new_image_size_ratio)+' %'
+            match_array.append(result)
+        else:
+            result = 'hashes do not match for ratio of: '+str(
+                    new_image_size_ratio)+' %'
+            # append to result array
+            match_list.append(result)
+
+    return(match_list)
 
 
 # match templates function. Meeds a main image, a secondary image to look for

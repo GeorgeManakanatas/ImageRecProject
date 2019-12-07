@@ -1,8 +1,11 @@
+'''
+'''
 import cv2
 import numpy as np
 import imutils
+import random
 from matplotlib import pyplot as plt
-from utils.utils import display_two_images
+from utils.display import display_two_images
 
 ###########################################
 # functions that modify an existing image #
@@ -22,30 +25,47 @@ def convert_to_greyscale(colorImage):
 
 	return greyscaleImage
 
-# get greyscale image and resize it to new dimensions (300, 300) for example
+
 def resize_image_to(image, dimensions):
-    # resize to greyscale image to new dimensions
-	new_image = cv2.resize(image, dimensions, interpolation = cv2.INTER_AREA)
+    '''
+    Resize greyscale image to new dimentions
 
-	return new_image
+    Arguments
+        image: the image to be resized, must be geyscale
+        dimentions(tuple): the new dimentions in pixels
 
-# generate random modifications to an image with the image, the number of
-# moidifications and their size as inputs. Returns the modified image
-def random_modifications_to_image(image, number_of_modifications, size_of_modifications):
-	# get image height and width
-	width = image.shape[0]
-	height = image.shape[1]
+    Returns
+        the resized image
+    '''
+    new_image = cv2.resize(image, dimensions, interpolation=cv2.INTER_AREA)
+    return new_image
 
-	# make a number of alterations to image
-	for value in range(0, number_of_modifications):
-	    # generating random coordinates
-	    rand_x = generate_random_integer(size_of_modifications, width-1)
-	    rand_y = generate_random_integer(size_of_modifications, height-1)
 
-	    # set color of random section
-	    image[rand_x-size_of_modifications:rand_x,rand_y-size_of_modifications:rand_y] = [0,0,236]
+def random_modifications_to_image(image, number_of_modifications,
+                                  size_of_modifications):
+    '''
+    Generate random modifications to an image
 
-	return image
+    Arguments
+        image :the image to be modified
+        number_of_modifications(int): the number of modifications to be made
+        size_of_modifications():
+    moidifications and their size as inputs. Returns the modified image
+    '''
+    # get image height and width
+    width = image.shape[0]
+    height = image.shape[1]
+
+    # make a number of alterations to image
+    for value in range(0, number_of_modifications):
+        # generating random coordinates
+        rand_x = random.randint(size_of_modifications, width-1)
+        rand_y = random.randint(size_of_modifications, height-1)
+        # set color of random section
+        image[rand_x-size_of_modifications:rand_x,
+              rand_y-size_of_modifications:rand_y] = [0, 0, 236]
+
+    return image
 
 
 # rotate image by a certaing angle. Inputs are the angle of clockwise rotation

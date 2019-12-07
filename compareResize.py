@@ -1,7 +1,6 @@
 from utils.manipulateImage import convert_to_greyscale
-from utils.utils import load_image_from
 from utils.processImage import count_image_colors
-from utils.utils import display_image
+from utils.display import display_image
 from utils.processImage import image_hash
 from utils.manipulateImage import resize_image_to
 from utils.processImage import rescale_and_compare
@@ -13,7 +12,7 @@ from utils.processImage import rescale_and_compare
 # the image filepath
 filepath = './images/icons8-jenkins-500.png'
 # read the image
-img = load_image_from(filepath)
+img = cv2.imread(filepath)
 # the hash size
 h_size = 8
 # step reduction in %

@@ -1,0 +1,8 @@
+{
+    "filepath_main":"images/",
+    "filepath_subimages":"images/",
+    "main_image":"RaspberryPi.png",
+    "flawed_image":"RaspberryPiFlaw2.png",
+    "subimage_1":"usb_a.png",
+    "subimage_2":"chipset.png"
+}

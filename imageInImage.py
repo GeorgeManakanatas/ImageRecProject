@@ -1,5 +1,4 @@
-from utils.utils import load_image_from
-from utils.utils import display_image
+from utils.display import display_image
 from utils.manipulateImage import rotate_image_by
 from utils.processImage import match_templates
 from sound.notificationSounds import play_audio_file
@@ -10,8 +9,8 @@ filepath_main = './images/RaspberryPi.png'
 filepath_subimage_1 = './images/usb_a.png'
 filepath_subimage_2 = './images/chipset.png'
 # read the image
-main_image = load_image_from(filepath_main)
-subimage = load_image_from(filepath_subimage_2)
+main_image = cv2.imread(filepath_main)
+subimage = cv2.imread(filepath_subimage_2)
 
 # list of comparison methods for wasy selection
 # methods = ["cv2.TM_CCOEFF", "cv2.TM_CCOEFF_NORMED", "cv2.TM_CCORR",

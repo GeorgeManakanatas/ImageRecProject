@@ -1,9 +1,8 @@
 from utils.detectShapes import DetectShapes
-from utils.utils import load_image_from
 from utils.manipulateImage import convert_to_greyscale
 from utils.manipulateImage import resize_image_to
 from utils.manipulateImage import blurr_image
-from utils.utils import display_image
+from utils.display import display_image
 import argparse
 import imutils
 import cv2
@@ -12,7 +11,7 @@ import cv2
 # the image filepath
 filepath = './images/Shapes.png'
 # read the image
-image = load_image_from(filepath)
+image = cv2.imread(filepath)
 # display_image("Original", image)
 
 # resizing image
