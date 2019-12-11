@@ -18,63 +18,81 @@ def mean_squared_error(imageA, imageB):
     return err
 
 
-def count_image_colors (image):
-    '''
-    Count the number of distinct colors in an image
-    '''
-    width = image.shape[0]
-    height = image.shape[1]
-    imageColorList = []
-    # get list of colors in image
-    for h in range(0, height):
-        for w in range(0, width):
-            # get pixel colors
-            px = image[w,h]
-            # turn to string so we avoid list in list comp issues
-            pxvalue = str(px[0])+','+str(px[1])+','+str(px[2])
-            # check if value exists in list already
-            check = pxvalue in imageColorList
-            # append to list if chek is tno true
-            if not check:
-                imageColorList.append(pxvalue)
+#def count_image_colors (image):
+#    '''
+#    Count the number of distinct colors in an image
+#    '''
+#    width = image.shape[0]
+#    height = image.shape[1]
+#    imageColorList = []
+#    # get list of colors in image
+#    for h in range(0, height):
+#        for w in range(0, width):
+#            # get pixel colors
+#            px = image[w,h]
+#            # turn to string so we avoid list in list comp issues
+#            pxvalue = str(px[0])+','+str(px[1])+','+str(px[2])
+#            # check if value exists in list already
+#            check = pxvalue in imageColorList
+#            # append to list if chek is tno true
+#            if not check:
+#                imageColorList.append(pxvalue)
+#
+#    print('number of discreet colors: ', len(imageColorList))
+#
+#    return
 
-    print('number of discreet colors: ', len(imageColorList))
 
-    return 
+class imageColorList:
+    def __init__(self,image_file):
+        '''
+        initialize the class with the image file provided
+        '''
+        self.image_file = image_file
+        self.image = cv2.imread(self.image_file)
+        self.width = self.image.shape[0]
+        self.height = self.image.shape[1]
 
-def count_image_colors2 (image):
-    '''
-    Count the number of distinct colors in an image
-    '''
-    width = image.shape[0]
-    height = image.shape[1]
-    imageColorList2 = []
-    # get list of colors in image
-    for h in range(0, height):
-        for w in range(0, width):
-            # get pixel colors
-            px = image[w,h]
-            # turn to string so we avoid list in list comp issues
-            pxvalue = str(px[0])+','+str(px[1])+','+str(px[2])
-            imageColorList2.append(pxvalue)
-    print('number of discreet colors2: ', len(set(imageColorList2)))
-    return 
+    def image_colors_set(self):
+        '''
+        get the colors of every pixel and return a set
+        '''
+        self.imageColorList = []
+        # get list of colors in image
+        for h in range(0, self.height):
+            for w in range(0, self.width):
+                # get pixel colors
+                self.px = self.image[w, h]
+                # turn to string so we avoid list in list comp issues
+                self.pxvalue = str(self.px[0])+','+str(self.px[1])+','+str(
+                        self.px[2])
+                self.imageColorList.append(self.pxvalue)
 
-def count_image_colors3 (image):
-    '''
-    Count the number of distinct colors in an image
-    '''
-    width = image.shape[0]
-    height = image.shape[1]
-    imageColorList = []
-    # get list of colors in image
-    for h in range(0, height):
-        for w in range(0, width):
-            # append all values
-            imageColorList.append(tuple(image[w,h]))
+        return set(self.imageColorList)
 
-    print('number of discreet colors: ', len(np.unique(imageColorList, axis=0)))
-    return 
+    def image_color_list(self):
+        '''
+        get the colors of every pixel and return the distinct ones in a list
+        '''
+        self.imageColorList = []
+        # get list of colors in image
+        for h in range(0, self.height):
+            for w in range(0, self.width):
+                # append all values
+                self.imageColorList.append(tuple(self.image[w, h]))
+
+        return np.unique(self.imageColorList, axis=0)
+
+    def image_color_count(self):
+        '''
+        check if both methods provide the same mumber of colors and if so
+        return the number
+        '''
+        if len(self.image_colors_set()) == len(self.image_color_list()):
+            return len(self.image_colors_set())
+        else:
+            return 'omg error!!!'  # this should not happen
+
 # calculate image hash with image and hash size as inputs
 def image_hash(image, hash_size):
     '''
