@@ -44,18 +44,29 @@ def mean_squared_error(imageA, imageB):
 
 
 class imageColorList:
-    def __init__(self,image_file):
+    '''
+    A class to get a list of all the distinct colors in an image
+
+    Attributes
+        image_file(str) : the path to the image file that we want to work with
+    '''
+    def __init__(self, image_file):
         '''
-        initialize the class with the image file provided
+        The constructor for imageColorList class. Will read the image as
+        np.array and get it's width and height
+
+        Parameters
+            image_file(str) : the path to the image file that we want
+                                to work with
+
         '''
-        self.image_file = image_file
-        self.image = cv2.imread(self.image_file)
+        self.image = cv2.imread(image_file)
         self.width = self.image.shape[0]
         self.height = self.image.shape[1]
 
     def image_colors_set(self):
         '''
-        get the colors of every pixel and return a set
+        get the colors of every pixel of the init image and return a set
         '''
         self.imageColorList = []
         # get list of colors in image
@@ -72,7 +83,8 @@ class imageColorList:
 
     def image_color_list(self):
         '''
-        get the colors of every pixel and return the distinct ones in a list
+        get the colors of every pixel of the init image remove duplicates and
+        return a list
         '''
         self.imageColorList = []
         # get list of colors in image
@@ -93,21 +105,26 @@ class imageColorList:
         else:
             return 'omg error!!!'  # this should not happen
 
+
 # calculate image hash with image and hash size as inputs
 def image_hash(image, hash_size):
     '''
-    # resize the input image, adding a single column (w idth) so we
-    # can compute the horizontal gradient
+    Calculate an image hash
+
+    Arguments
+        image(nparray) : the image as read by opencv
+        hash_size(int) : an int denoting the has size
+
+    Returns
+        the image hash as integer
     '''
 
     resized = cv2.resize(image, (hash_size + 1, hash_size))
     # compute the (relative) horizontal gradient between adjacent
     # column pixels
     diff = resized[:, 1:] > resized[:, :-1]
-    # convert the difference image to a hash
-    difference_image = sum([2 ** i for (i, v) in enumerate(diff.flatten()) if v])
-
-    return difference_image
+    # convert the difference image to a hash and return
+    return sum([2 ** i for (i, v) in enumerate(diff.flatten()) if v])
 
 
 def rescale_and_compare(image, hash_size, rescale_step, minimum_final_size):
@@ -115,7 +132,7 @@ def rescale_and_compare(image, hash_size, rescale_step, minimum_final_size):
     Gradually rescale an image and compare hashes
 
     Arguments
-        image : the original image
+        image(nparray)  : the image as read by opencv
         hash_size(int) : the hash size we want to use
         rescale_step(int) : the % that we want to shrink the image every time
         minimum_final_size(int) : the % tha we want to stop at

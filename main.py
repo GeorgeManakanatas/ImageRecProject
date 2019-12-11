@@ -5,7 +5,7 @@ import json
 import cv2
 import timeit
 from spotTheDif import identify_changes
-from utils.processImage import imageColorList
+from utils.processImage import imageColorList, image_hash
 
 def main():
     # load configuration into dictionary
