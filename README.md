@@ -33,7 +33,7 @@ This is an auto generated README file.
 │   ├── __pycache__
 │   ├── Script_finished.wav
 │   └── Script_started.wav
-├── spotTheDif.py
+├── spot_the_dif.py
 └── utils
     ├── detectShapes.py
     ├── __init__.py

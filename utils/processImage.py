@@ -3,8 +3,7 @@ functions that process an image without modifying it
 '''
 import cv2
 import numpy as np
-import random
-from utils.display import display_two_images
+
 
 # calculate and return mean squared error of 2 provided images
 def mean_squared_error(imageA, imageB):
@@ -18,31 +17,6 @@ def mean_squared_error(imageA, imageB):
     return err
 
 
-#def count_image_colors (image):
-#    '''
-#    Count the number of distinct colors in an image
-#    '''
-#    width = image.shape[0]
-#    height = image.shape[1]
-#    imageColorList = []
-#    # get list of colors in image
-#    for h in range(0, height):
-#        for w in range(0, width):
-#            # get pixel colors
-#            px = image[w,h]
-#            # turn to string so we avoid list in list comp issues
-#            pxvalue = str(px[0])+','+str(px[1])+','+str(px[2])
-#            # check if value exists in list already
-#            check = pxvalue in imageColorList
-#            # append to list if chek is tno true
-#            if not check:
-#                imageColorList.append(pxvalue)
-#
-#    print('number of discreet colors: ', len(imageColorList))
-#
-#    return
-
-
 class imageColorList:
     '''
     A class to get a list of all the distinct colors in an image
@@ -50,17 +24,16 @@ class imageColorList:
     Attributes
         image_file(str) : the path to the image file that we want to work with
     '''
-    def __init__(self, image_file):
+    def __init__(self, image_file_path):
         '''
         The constructor for imageColorList class. Will read the image as
         np.array and get it's width and height
 
         Parameters
-            image_file(str) : the path to the image file that we want
+            image_file_path(str) : the path to the image file that we want
                                 to work with
-
         '''
-        self.image = cv2.imread(image_file)
+        self.image = cv2.imread(image_file_path)
         self.width = self.image.shape[0]
         self.height = self.image.shape[1]
 
@@ -97,16 +70,11 @@ class imageColorList:
 
     def image_color_count(self):
         '''
-        check if both methods provide the same mumber of colors and if so
-        return the number
+        return the number of distinct colors in the image
         '''
-        if len(self.image_colors_set()) == len(self.image_color_list()):
-            return len(self.image_colors_set())
-        else:
-            return 'omg error!!!'  # this should not happen
+        return len(self.image_colors_set())
 
 
-# calculate image hash with image and hash size as inputs
 def image_hash(image, hash_size):
     '''
     Calculate an image hash

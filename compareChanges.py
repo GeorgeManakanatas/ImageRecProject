@@ -5,27 +5,24 @@ from utils.processImage import mean_squared_error
 from skimage.measure import compare_ssim as ssim
 
 def compare_two_images(imageA, imageB, title):
-	# compute the mean squared error and structural similarity
-	# index for the images
-	m = mean_squared_error(imageA, imageB)
-	s = ssim(imageA, imageB)
+    # compute the mean squared error and structural similarity
+    # setup the figure
+    fig = plt.figure(title)
+    plt.suptitle("MSE: %.2f, SSIM: %.2f" % (mean_squared_error(imageA, imageB),
+                                            ssim(imageA, imageB)))
 
-	# setup the figure
-	fig = plt.figure(title)
-	plt.suptitle("MSE: %.2f, SSIM: %.2f" % (m, s))
+    # show first image
+    ax = fig.add_subplot(1, 2, 1)
+    plt.imshow(imageA, cmap=plt.cm.gray)
+    plt.axis("off")
 
-	# show first image
-	ax = fig.add_subplot(1, 2, 1)
-	plt.imshow(imageA, cmap = plt.cm.gray)
-	plt.axis("off")
+    # show the second image
+    ax = fig.add_subplot(1, 2, 2)
+    plt.imshow(imageB, cmap=plt.cm.gray)
+    plt.axis("off")
 
-	# show the second image
-	ax = fig.add_subplot(1, 2, 2)
-	plt.imshow(imageB, cmap = plt.cm.gray)
-	plt.axis("off")
-
-	# show the images
-	plt.show()
+    # show the images
+    plt.show()
 
 def display_all_images(images):
 	# initialize the figure

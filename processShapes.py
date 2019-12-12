@@ -1,7 +1,5 @@
 from utils.detectShapes import DetectShapes
-from utils.manipulateImage import convert_to_greyscale
-from utils.manipulateImage import resize_image_to
-from utils.manipulateImage import blurr_image
+from utils.manipulateImage import convert_to_greyscale, resize_image_to, blurr_image
 from utils.display import display_image
 import argparse
 import imutils

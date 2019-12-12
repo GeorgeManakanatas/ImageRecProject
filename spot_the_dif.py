@@ -1,13 +1,26 @@
-from skimage.measure import compare_ssim
-from utils.manipulateImage import random_modifications_to_image
-from utils.manipulateImage import convert_to_greyscale
-from utils.manipulateImage import resize_image_to
-import argparse
+'''
+Module to identify differences between iamges
+'''
 import imutils
 import cv2
+from skimage.measure import compare_ssim
+# from utils.manipulateImage import random_squares_in_image
+from utils.manipulateImage.imageManipulation import convert_to_greyscale
+# from utils.manipulateImage import resize_image_to
+# import argparse
 
 
-def identify_changes(filepath1, filepath2):
+def identify_changes(filepath_1, filepath_2):
+    '''
+    Function for detecting differences between images and displaying them
+
+    Arguments
+        filepath1(str) : the filepath for the first image
+        filepath2(str) : the filepath for the second image
+
+    Returns
+        nothing
+    '''
     # construct the argument parse and parse the arguments
     # ap = argparse.ArgumentParser()
     # ap.add_argument("-f", "--first", required=True,
@@ -23,25 +36,26 @@ def identify_changes(filepath1, filepath2):
     # imageA = cv2.imread(filepath)
     # imageB = cv2.imread(filepath)
     # # modify second image
-    # imageB = random_modifications_to_image(imageB, 3, 10)
+    # color = [0, 0, 236]
+    # imageB = random_squares_in_image(imageB, 3, 10, color)
 
     # load original and flawed image and spot changes
     # load the two input images
 
-    imageA = cv2.imread(filepath1)
-    imageB = cv2.imread(filepath2)
-    print(type(imageB))
+    image_a = cv2.imread(filepath_1)
+    image_b = cv2.imread(filepath_2)
+    print(type(image_b))
     # optional resize image
     # imageA = resize_image_to(imageA, (200, 200))
     # imageB = resize_image_to(imageB, (200, 200))
 
     # convert the images to grayscale
-    grayA = convert_to_greyscale(imageA)
-    grayB = convert_to_greyscale(imageB)
+    gray_a = convert_to_greyscale(image_a)
+    gray_b = convert_to_greyscale(image_b)
 
     # compute the Structural Similarity Index (SSIM) between the two
     # images, ensuring that the difference image is returned
-    (score, diff) = compare_ssim(grayA, grayB, full=True)
+    score, diff = compare_ssim(gray_a, gray_b, full=True)
     diff = (diff * 255).astype("uint8")
 
     # threshold the difference image, followed by finding contours to
@@ -53,17 +67,19 @@ def identify_changes(filepath1, filepath2):
     cnts = imutils.grab_contours(cnts)
 
     # loop over the contours
-    for c in cnts:
+    for contour in cnts:
         # compute the bounding box of the contour and then draw the
         # bounding box on both input images to represent where the two
         # images differ
-        (x, y, w, h) = cv2.boundingRect(c)
-        cv2.rectangle(imageA, (x, y), (x + w, y + h), (0, 0, 255), 2)
-        cv2.rectangle(imageB, (x, y), (x + w, y + h), (0, 0, 255), 2)
+        (pos_x, pos_y, width, height) = cv2.boundingRect(contour)
+        cv2.rectangle(image_a, (pos_x, pos_y), (pos_x + width, pos_y +
+                      height), (0, 0, 255), 2)
+        cv2.rectangle(image_b, (pos_x, pos_y), (pos_x + width, pos_y +
+                      height), (0, 0, 255), 2)
 
     # show the output images
-    cv2.imshow("Original", imageA)
-    cv2.imshow("Modified", imageB)
+    cv2.imshow("Original", image_a)
+    cv2.imshow("Modified", image_b)
     cv2.imshow("Diff", diff)
     cv2.imshow("Thresh", thresh)
     cv2.waitKey(0)

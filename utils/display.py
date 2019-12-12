@@ -1,5 +1,5 @@
 '''
-Random functions taht get used a bit but have no other place to go
+Random visualisation functions that have no other place to go
 '''
 import cv2
 from matplotlib import pyplot as plt
